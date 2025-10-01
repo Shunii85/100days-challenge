@@ -8,7 +8,6 @@ export interface Memo {
   updatedAt: string;
 }
 
-// データベースを非同期で開き、初期化処理を行う
 async function initializeDatabase(): Promise<SQLite.SQLiteDatabase> {
   const db = await SQLite.openDatabaseAsync("memo.db");
   await db.execAsync(`
@@ -23,10 +22,8 @@ async function initializeDatabase(): Promise<SQLite.SQLiteDatabase> {
   return db;
 }
 
-// DBの初期化処理を一度だけ実行し、Promiseとして保持
 const dbPromise = initializeDatabase();
 
-// 全てのメモを取得 (getAllAsyncを使用)
 export const fetchMemos = async (): Promise<Memo[]> => {
   const db = await dbPromise;
   // ジェネリクスで返り値の型を指定できる
@@ -35,7 +32,6 @@ export const fetchMemos = async (): Promise<Memo[]> => {
   );
 };
 
-// メモの追加 (runAsyncを使用)
 export const addMemo = async (
   title: string,
   content: string,
@@ -50,7 +46,6 @@ export const addMemo = async (
   );
 };
 
-// メモの更新 (runAsyncを使用)
 export const updateMemo = async (
   id: number,
   title: string,
@@ -67,7 +62,6 @@ export const updateMemo = async (
   );
 };
 
-// メモの削除 (runAsyncを使用)
 export const deleteMemo = async (
   id: number
 ): Promise<SQLite.SQLiteRunResult> => {
